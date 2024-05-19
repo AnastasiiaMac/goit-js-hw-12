@@ -4,6 +4,8 @@ import { displayImages, displayToast } from "./js/render-functions.js";
 const searchForm = document.querySelector("form");
 const gallery = document.querySelector(".gallery");
 const loader = document.querySelector(".spinner")
+let page = 1;
+let perPage = 15;
 
 searchForm.addEventListener("submit", event => {
     event.preventDefault();
@@ -20,14 +22,13 @@ searchForm.addEventListener("submit", event => {
     }
 
     fetchImages(searchData)
-        .then(response => {
-            if (response.data.total === 0) {
-                console.log(response.data.total)
+        .then(images => {
+            if (images.total === 0) {
                 displayToast('Sorry, there are no images matching your search query. Please try again!', 'error');
                 return;
             }
 
-            displayImages(response.data.hits, gallery);
+            displayImages(images.hits, gallery);
         })
         .catch(error => {
             console.error('Error fetching images:', error);

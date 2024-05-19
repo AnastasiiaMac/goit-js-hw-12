@@ -5,9 +5,12 @@ export async function fetchImages(searchData) {
         q: searchData,
         image_type: "photo",
         orientation: "horizontal",
-        safesearch: "true"
+        safesearch: "true",
+        per_page:"15"
     });
-    return axios.get(`https://pixabay.com/api/?${searchParams}`)   
+    const response = await axios.get(`https://pixabay.com/api/?${searchParams}`)
+    return response.data
+
     }
             
     
