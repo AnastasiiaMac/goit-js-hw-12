@@ -183,3 +183,10 @@ section {
     transform: rotate(1turn);
   }
 }
+
+.load-button {
+  width: 125px;
+  display: block;
+  margin: 0 auto;
+ 
+}

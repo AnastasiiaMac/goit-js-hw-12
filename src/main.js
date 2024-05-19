@@ -4,15 +4,15 @@ import { displayImages, displayToast } from "./js/render-functions.js";
 const searchForm = document.querySelector("form");
 const gallery = document.querySelector(".gallery");
 const loader = document.querySelector(".spinner")
+const loadButton = document.querySelector(".load-button")
 let page = 1;
 let perPage = 15;
-
+loadButton.classList.add('is-hidden')
 searchForm.addEventListener("submit", event => {
     event.preventDefault();
     gallery.innerHTML = "";
     loader.classList.remove('is-hidden');
-
-    
+    loadButton.classList.remove('is-hidden')
 
     const searchData = event.target.elements.search_input.value.trim();
     if (searchData === "") {
@@ -20,7 +20,6 @@ searchForm.addEventListener("submit", event => {
         loader.classList.add('is-hidden');
         return;
     }
-
     fetchImages(searchData)
         .then(images => {
             if (images.total === 0) {
@@ -38,4 +37,5 @@ searchForm.addEventListener("submit", event => {
             event.target.reset();
             loader.classList.add('is-hidden');
         });
+    
 });
