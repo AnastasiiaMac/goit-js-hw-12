@@ -4,23 +4,26 @@ import { displayImages, displayToast } from "./js/render-functions.js";
 const searchForm = document.querySelector("form");
 const gallery = document.querySelector(".gallery");
 const loader = document.querySelector(".spinner")
-const loadButton = document.querySelector(".load-button")
-let page = 1;
-let perPage = 15;
+export const loadButton = document.querySelector(".load-button")
+export let page = 1;
+export let perPage = 15;
+let searchData = '';
+
 loadButton.classList.add('is-hidden')
 searchForm.addEventListener("submit", event => {
     event.preventDefault();
     gallery.innerHTML = "";
+    page = 1;
     loader.classList.remove('is-hidden');
     loadButton.classList.remove('is-hidden')
 
-    const searchData = event.target.elements.search_input.value.trim();
+    searchData = event.target.elements.search_input.value.trim();
     if (searchData === "") {
         displayToast('All form fields must be filled in', 'warning');
         loader.classList.add('is-hidden');
         return;
     }
-    fetchImages(searchData)
+    fetchImages(searchData, page, perPage)
         .then(images => {
             if (images.total === 0) {
                 displayToast('Sorry, there are no images matching your search query. Please try again!', 'error');
@@ -39,3 +42,13 @@ searchForm.addEventListener("submit", event => {
         });
     
 });
+loadButton.addEventListener("click", async () => {
+    try {
+        page += 1;
+        const images = await fetchImages(searchData, page, perPage);
+        displayImages(images.hits, gallery);
+    }
+    catch (error) {
+        console.log (error)
+   }
+})
