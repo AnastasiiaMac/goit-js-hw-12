@@ -19,6 +19,7 @@ searchForm.addEventListener("submit", event => {
     loader.classList.remove('is-hidden');
     searchData = event.target.elements.search_input.value.trim();
     if (searchData === "") {
+        loadButton.classList.add('is-hidden')
         displayToast('All form fields must be filled in', 'warning');
         loader.classList.add('is-hidden');
         return;
@@ -27,9 +28,10 @@ searchForm.addEventListener("submit", event => {
         .then(images => {
             if (images.total === 0) {
                 displayToast('Sorry, there are no images matching your search query. Please try again!', 'error');
+                loadButton.classList.add('is-hidden');
                 return;
             }
-
+            loadButton.classList.remove('is-hidden')
             displayImages(images.hits, gallery);
         })
         .catch(error => {
@@ -39,7 +41,7 @@ searchForm.addEventListener("submit", event => {
         .finally(() => {
             event.target.reset();
             loader.classList.add('is-hidden');
-            loadButton.classList.remove('is-hidden')
+            
         });
     
 });
