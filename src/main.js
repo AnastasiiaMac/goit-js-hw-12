@@ -30,6 +30,15 @@ searchForm.addEventListener("submit", event => {
                 displayToast('Sorry, there are no images matching your search query. Please try again!', 'error');
                 loadButton.classList.add('is-hidden');
                 return;
+            } else if (images.total <= 15) {
+                displayImages(images.hits, gallery);
+            return iziToast.error({
+                position: "topRight",
+                message: "We're sorry, there are no more posts to load",
+                messageColor: 'white',
+                backgroundColor: 'red'
+            });
+
             }
             loadButton.classList.remove('is-hidden')
             displayImages(images.hits, gallery);
@@ -54,7 +63,7 @@ loadButton.addEventListener("click", async () => {
         const fullImage = document.querySelector(".full-image")
         let rect = fullImage.getBoundingClientRect();
         const totalPages = Math.ceil(images.totalHits / perPage);
-        if (page > totalPages) {
+        if (page >= totalPages) {
             loadButton.classList.add('is-hidden')
             return iziToast.error({
                 position: "topRight",
